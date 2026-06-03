@@ -1,0 +1,13 @@
+.venv/
+metadata.db
+faiss.index
+__pycache__/
+*.pyc
+.cache/
+models/
+.env
+.huggingface/
+*.log
+*.sqlite
+/.vscode/
+/.idea/
