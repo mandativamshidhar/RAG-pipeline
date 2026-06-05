@@ -1,47 +1,117 @@
-# Document Search & Q&A Pipeline
+# Vamshidhar Reddy Mandati
 
-This repository provides a document ingestion and retrieval service that:
-- ingests PDFs
-- chunks text and computes embeddings
-- stores vectors in FAISS for fast similarity search
-- exposes a REST API for querying and evaluation
+### AI/ML Engineer · LLM & RAG Systems · Cybersecurity-AI · Graduating June 2026
 
-Quickstart
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/vamshidhar-reddy-mandati)
+[![Email](https://img.shields.io/badge/Email-mandativamshidhar%40gmail.com-red?logo=gmail&logoColor=white)](mailto:mandativamshidhar@gmail.com)
+[![LeetCode](https://img.shields.io/badge/LeetCode-Vamshi__Mandati-FFA116?logo=leetcode&logoColor=white)](https://leetcode.com/u/Vamshi_Mandati/)
+![Profile Views](https://komarev.com/ghpvc/?username=mandativamshidhar&label=Profile%20Views&color=0e75b6&style=flat)
 
-1. Create a Python virtual environment and install dependencies:
+---
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-```
+## About Me
 
-2. Set any needed environment variables (e.g. `OPENAI_API_KEY` if using remote LLMs).
+I build end-to-end AI/ML systems — from data pipelines and model training to deployed APIs and real-time dashboards.
 
-3. Run the FastAPI app locally:
+My focus is **GenAI engineering** (RAG pipelines, LLM evaluation, prompt workflows) combined with **ML-driven cybersecurity** (anomaly detection, threat classification). I'm comfortable across the full stack: Python ML pipelines, FastAPI services, C++ systems programming, and Linux/Docker infrastructure.
 
-```powershell
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
+Currently: B.Tech CSE (Cybersecurity specialisation) at Central University of Jammu · Graduating June 2026.
 
-Available endpoints
+---
 
-- `POST /ingest` — JSON payload `{"pdf_folder":"<path>"}` to ingest PDFs from a folder.
-- `POST /query` — JSON payload `{"question":"...","top_k":5}` to query the indexed documents.
-- `python -m app.quality` — run a simple retrieval-quality script (MRR@K) against the index.
+## Tech Stack
 
-Notes
+**AI / ML**
 
-- Do not commit the `metadata.db` or `faiss.index` files; they are listed in `.gitignore`.
-- Rebuild the index on a new machine by calling the ingest endpoint or running the benchmark with `--rebuild`.
-- For production deployment, a `Dockerfile` and `gunicorn.conf.py` are included.
+[![Skills](https://skillicons.dev/icons?i=python,pytorch,sklearn&theme=light)](https://skillicons.dev)
 
-Performance tuning
+![LangChain](https://img.shields.io/badge/LangChain-RAG-blueviolet)
+![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-yellow?logo=huggingface&logoColor=black)
+![FAISS](https://img.shields.io/badge/FAISS-vector--search-orange)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5%2F4-412991?logo=openai&logoColor=white)
 
-- Chunking defaults: 200 words per chunk, 50-word overlap — tuned for lower retrieval latency and reasonable context size.
-- FAISS index: HNSW (`IndexHNSWFlat`) wrapped in `IndexIDMap`, defaults tuned with `M=32` and `efSearch=128`.
-- To reach sub-2s query latency on a 200-page PDF corpus, use a machine with at least 4 CPU cores and sufficient RAM. If latency is not met, try:
-	- lowering `efSearch` (reduces latency, may reduce recall)
-	- reduce `chunk_size` to reduce per-chunk embedding cost but watch index size
-	- use a GPU and faiss-gpu for faster search
+**Systems & Infrastructure**
 
+[![Skills](https://skillicons.dev/icons?i=cpp,c,linux,docker,git,fastapi,mysql,bash&theme=light)](https://skillicons.dev)
+
+**Frontend / Tooling**
+
+[![Skills](https://skillicons.dev/icons?i=js,html,css,vscode&theme=light)](https://skillicons.dev)
+
+---
+
+## Featured Projects
+
+### 🔍 RAG Document Q&A Pipeline
+`Python` `LangChain` `FAISS` `OpenAI` `FastAPI` `Docker`
+
+PDF ingestion → semantic chunking → FAISS vector search → GPT-3.5 generation via FastAPI REST API.
+
+- **MRR@5: 0.81** (RAGAS evaluation)
+- **Sub-2s latency** on a 200-page corpus
+- HNSW index (`M=32`, `efSearch=128`) for fast approximate search
+- Dockerised, production-ready with Gunicorn
+
+[View repo →](https://github.com/mandativamshidhar/RAG-pipeline)
+
+---
+
+### 🛡️ AI-Powered Cybersecurity Threat Detection
+`Python` `Scikit-learn` `Isolation Forest` `SMOTE` `PowerBI`
+
+ML pipeline for 5-class network intrusion detection on the NSL-KDD benchmark (125K+ records).
+
+- **96.4% accuracy · AUC 0.98** (Random Forest, 5-fold CV)
+- **False positive rate: 2.9%** vs 17.2% for Snort IDS
+- Isolation Forest for unsupervised anomaly detection
+- PowerBI SOC dashboard with real-time KPIs and IP-level drill-down
+
+[View repo →](https://github.com/mandativamshidhar/Cybersecurity_assesment_application)
+
+---
+
+### 📡 Real-Time Multimedia Streaming System
+`C++17` `H.264` `AAC` `TCP/UDP` `CMake` `Docker`
+
+Production-grade streaming module for Android/Linux with codec integration and concurrent buffering.
+
+- **Sub-100ms end-to-end latency** on 4-core Linux
+- Concurrent thread scheduling: main encode thread + background receive thread
+- Adaptive circular frame buffer (100 frames) with automatic overflow handling
+- Dual TCP/UDP stack — reliability vs latency trade-off by frame type
+
+[View repo →](https://github.com/mandativamshidhar/multimedia-streaming)
+
+---
+
+## Experience
+
+**Prompt Engineer · Outlier** *(Nov 2024 – Present)*  
+LLM evaluation workflows for GPT-4o and Claude — improved response accuracy by 35% and output relevance by 30% using chain-of-thought and few-shot prompting.
+
+**Data Analyst Intern (AI/ML) · SSK Limited** *(Jan – May 2026)*  
+Built end-to-end ML threat detection pipeline; Random Forest achieved 96.4% accuracy, AUC 0.98 on NSL-KDD. Delivered PowerBI SOC dashboard.
+
+**AI Intern · AICTE Edunet Foundation** *(Jan – Feb 2025)*  
+Architected AI health assistant with NLP symptom classifier and multi-modal data processing.
+
+---
+
+## Certifications
+
+- DeepLearning.AI Machine Learning Specialisation (Coursera, 2025)
+- Google Cybersecurity Professional Certificate
+- Python for Data Science — IIT Kanpur
+- Cisco Introduction to Cybersecurity
+- Tata Cybersecurity Analyst Job Simulation
+
+---
+
+## Leadership
+
+**Vice President, Esports Club · Central University of Jammu** *(2024–2025)*  
+Led events with 450+ participants (+160% digital engagement). Co-organised CodeClash and Hack-A-Way CTF at Udaan Fest 2025.
+
+---
+
+*"The best ML system is one that actually ships — fast to query, cheap to run, and honest about what it doesn't know."*
