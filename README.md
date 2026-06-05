@@ -1,117 +1,183 @@
-# Vamshidhar Reddy Mandati
+# RAG Document Q&A Pipeline
 
-### AI/ML Engineer · LLM & RAG Systems · Cybersecurity-AI · Graduating June 2026
+> PDF ingestion → semantic chunking → FAISS vector search → GPT-3.5 generation, served via FastAPI REST API.
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?logo=linkedin&logoColor=white)](https://linkedin.com/in/vamshidhar-reddy-mandati)
-[![Email](https://img.shields.io/badge/Email-mandativamshidhar%40gmail.com-red?logo=gmail&logoColor=white)](mailto:mandativamshidhar@gmail.com)
-[![LeetCode](https://img.shields.io/badge/LeetCode-Vamshi__Mandati-FFA116?logo=leetcode&logoColor=white)](https://leetcode.com/u/Vamshi_Mandati/)
-![Profile Views](https://komarev.com/ghpvc/?username=mandativamshidhar&label=Profile%20Views&color=0e75b6&style=flat)
+![Python](https://img.shields.io/badge/Python-3.10+-blue?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green?logo=fastapi&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-latest-blueviolet)
+![FAISS](https://img.shields.io/badge/FAISS-vector--search-orange)
+![Docker](https://img.shields.io/badge/Docker-ready-2496ED?logo=docker&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-lightgrey)
 
 ---
 
-## About Me
+## Performance
 
-I build end-to-end AI/ML systems — from data pipelines and model training to deployed APIs and real-time dashboards.
+| Metric | Result |
+|---|---|
+| Retrieval quality (MRR@5) | **0.81** |
+| End-to-end query latency | **< 2s** on a 200-page corpus |
+| Evaluation framework | RAGAS |
+| Embedding model | `all-MiniLM-L6-v2` (Hugging Face, open source) |
+| FAISS index type | `IndexHNSWFlat` + `IndexIDMap` (M=32, efSearch=128) |
 
-My focus is **GenAI engineering** (RAG pipelines, LLM evaluation, prompt workflows) combined with **ML-driven cybersecurity** (anomaly detection, threat classification). I'm comfortable across the full stack: Python ML pipelines, FastAPI services, C++ systems programming, and Linux/Docker infrastructure.
+---
 
-Currently: B.Tech CSE (Cybersecurity specialisation) at Central University of Jammu · Graduating June 2026.
+## Architecture
+
+```
+PDF files
+   │
+   ▼
+[PDF Loader] ──► [Text Chunker] ──► [Sentence Transformer Embeddings]
+                  200 words/chunk        (Hugging Face, open source)
+                  50-word overlap
+                      │
+                      ▼
+                 [FAISS Index]
+                 (HNSW, persisted)
+                      │
+                 [POST /query]
+                      │
+                      ▼
+              [GPT-3.5-turbo] ──► JSON response
+                      │
+                 [POST /ingest]   [python -m app.quality]
+```
 
 ---
 
 ## Tech Stack
 
-**AI / ML**
-
-[![Skills](https://skillicons.dev/icons?i=python,pytorch,sklearn&theme=light)](https://skillicons.dev)
-
-![LangChain](https://img.shields.io/badge/LangChain-RAG-blueviolet)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-Transformers-yellow?logo=huggingface&logoColor=black)
-![FAISS](https://img.shields.io/badge/FAISS-vector--search-orange)
-![OpenAI](https://img.shields.io/badge/OpenAI-GPT--3.5%2F4-412991?logo=openai&logoColor=white)
-
-**Systems & Infrastructure**
-
-[![Skills](https://skillicons.dev/icons?i=cpp,c,linux,docker,git,fastapi,mysql,bash&theme=light)](https://skillicons.dev)
-
-**Frontend / Tooling**
-
-[![Skills](https://skillicons.dev/icons?i=js,html,css,vscode&theme=light)](https://skillicons.dev)
+| Layer | Tool |
+|---|---|
+| Ingestion & chunking | LangChain, PyMuPDF |
+| Embeddings | `sentence-transformers/all-MiniLM-L6-v2` (open source) |
+| Vector store | FAISS (`IndexHNSWFlat`) |
+| LLM generation | OpenAI GPT-3.5-turbo |
+| API server | FastAPI + Gunicorn |
+| Containerisation | Docker |
+| Evaluation | RAGAS (MRR@K) |
 
 ---
 
-## Featured Projects
+## Quickstart
 
-### 🔍 RAG Document Q&A Pipeline
-`Python` `LangChain` `FAISS` `OpenAI` `FastAPI` `Docker`
+### 1. Clone and install
 
-PDF ingestion → semantic chunking → FAISS vector search → GPT-3.5 generation via FastAPI REST API.
+```bash
+git clone https://github.com/mandativamshidhar/RAG-pipeline.git
+cd RAG-pipeline
+python -m venv .venv
+# Windows
+.\.venv\Scripts\Activate.ps1
+# Linux / macOS
+source .venv/bin/activate
 
-- **MRR@5: 0.81** (RAGAS evaluation)
-- **Sub-2s latency** on a 200-page corpus
-- HNSW index (`M=32`, `efSearch=128`) for fast approximate search
-- Dockerised, production-ready with Gunicorn
+pip install -r requirements.txt
+```
 
-[View repo →](https://github.com/mandativamshidhar/RAG-pipeline)
+### 2. Set environment variables
 
----
+```bash
+export OPENAI_API_KEY=your_key_here
+```
 
-### 🛡️ AI-Powered Cybersecurity Threat Detection
-`Python` `Scikit-learn` `Isolation Forest` `SMOTE` `PowerBI`
+### 3. Run the API locally
 
-ML pipeline for 5-class network intrusion detection on the NSL-KDD benchmark (125K+ records).
+```bash
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
 
-- **96.4% accuracy · AUC 0.98** (Random Forest, 5-fold CV)
-- **False positive rate: 2.9%** vs 17.2% for Snort IDS
-- Isolation Forest for unsupervised anomaly detection
-- PowerBI SOC dashboard with real-time KPIs and IP-level drill-down
+### 4. Or run with Docker
 
-[View repo →](https://github.com/mandativamshidhar/Cybersecurity_assesment_application)
-
----
-
-### 📡 Real-Time Multimedia Streaming System
-`C++17` `H.264` `AAC` `TCP/UDP` `CMake` `Docker`
-
-Production-grade streaming module for Android/Linux with codec integration and concurrent buffering.
-
-- **Sub-100ms end-to-end latency** on 4-core Linux
-- Concurrent thread scheduling: main encode thread + background receive thread
-- Adaptive circular frame buffer (100 frames) with automatic overflow handling
-- Dual TCP/UDP stack — reliability vs latency trade-off by frame type
-
-[View repo →](https://github.com/mandativamshidhar/multimedia-streaming)
+```bash
+docker build -t rag-pipeline .
+docker run -e OPENAI_API_KEY=$OPENAI_API_KEY -p 8000:8000 rag-pipeline
+```
 
 ---
 
-## Experience
+## API Reference
 
-**Prompt Engineer · Outlier** *(Nov 2024 – Present)*  
-LLM evaluation workflows for GPT-4o and Claude — improved response accuracy by 35% and output relevance by 30% using chain-of-thought and few-shot prompting.
+### `POST /ingest`
+Ingest all PDFs from a folder into the FAISS index.
 
-**Data Analyst Intern (AI/ML) · SSK Limited** *(Jan – May 2026)*  
-Built end-to-end ML threat detection pipeline; Random Forest achieved 96.4% accuracy, AUC 0.98 on NSL-KDD. Delivered PowerBI SOC dashboard.
+```json
+// Request
+{ "pdf_folder": "./pdfs" }
 
-**AI Intern · AICTE Edunet Foundation** *(Jan – Feb 2025)*  
-Architected AI health assistant with NLP symptom classifier and multi-modal data processing.
+// Response
+{ "status": "ok", "chunks_indexed": 843 }
+```
+
+### `POST /query`
+Query the indexed documents with a natural language question.
+
+```json
+// Request
+{ "question": "What is the refund policy?", "top_k": 5 }
+
+// Response
+{
+  "answer": "The refund policy states...",
+  "sources": ["doc1.pdf (p.4)", "doc2.pdf (p.11)"]
+}
+```
+
+### `python -m app.quality`
+Run MRR@K retrieval quality evaluation against the current index.
+
+```bash
+python -m app.quality --k 5
+# MRR@5: 0.81
+```
 
 ---
 
-## Certifications
+## Project Structure
 
-- DeepLearning.AI Machine Learning Specialisation (Coursera, 2025)
-- Google Cybersecurity Professional Certificate
-- Python for Data Science — IIT Kanpur
-- Cisco Introduction to Cybersecurity
-- Tata Cybersecurity Analyst Job Simulation
+```
+RAG-pipeline/
+├── app/
+│   ├── main.py          # FastAPI app + endpoints
+│   ├── ingestor.py      # PDF loading, chunking, embedding
+│   ├── retriever.py     # FAISS search logic
+│   ├── generator.py     # GPT-3.5 generation
+│   └── quality.py       # RAGAS / MRR evaluation
+├── pdfs/                # Sample PDFs (gitignored in production)
+├── Dockerfile
+├── gunicorn.conf.py
+├── requirements.txt
+└── .gitignore           # faiss.index and metadata.db excluded
+```
 
 ---
 
-## Leadership
+## Performance Tuning Notes
 
-**Vice President, Esports Club · Central University of Jammu** *(2024–2025)*  
-Led events with 450+ participants (+160% digital engagement). Co-organised CodeClash and Hack-A-Way CTF at Udaan Fest 2025.
+- **Chunk size**: 200 words / 50-word overlap — tuned for low latency with reasonable context window usage
+- **HNSW parameters**: `M=32`, `efSearch=128` — balance between recall and query speed
+- **Scaling latency**: Lower `efSearch` to trade recall for speed; switch to `faiss-gpu` for GPU-accelerated search
+- **Minimum hardware**: 4 CPU cores + 4 GB RAM to sustain sub-2s latency on a 200-page corpus
 
 ---
 
-*"The best ML system is one that actually ships — fast to query, cheap to run, and honest about what it doesn't know."*
+## What I Learned
+
+- HNSW approximate nearest-neighbour search achieves significantly lower query latency than flat L2 search at scale
+- RAGAS evaluation revealed that chunk overlap has a larger effect on MRR than chunk size within the 150–300 word range
+- Gunicorn with multiple workers is necessary to prevent FastAPI event-loop blocking under concurrent requests
+
+---
+
+## Author
+
+**Vamshidhar Reddy Mandati**  
+AI/ML Engineer · [LinkedIn](https://linkedin.com/in/vamshidhar-reddy-mandati) · [GitHub](https://github.com/mandativamshidhar)
+
+---
+
+## License
+
+MIT
